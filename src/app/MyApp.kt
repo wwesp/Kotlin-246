@@ -2,8 +2,18 @@ package app
 
 import javafx.*
 import view.MainView
-import tornadofx.App
+import view.Choice0View
+import app.choice0;
+import tornadofx.*
 
 
-class MyApp: App(MainView::class, Styles::class)
+fun main(args: Array<String>){
+
+    launch<MyApp>(args)
+
+
+
+
+
+}
 

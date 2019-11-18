@@ -10,3 +10,11 @@ class MainView : View("Hello TornadoFX") {
         }
     }
 }
+
+class Choice0View() : View("Hello TornadoFX") {
+    override val root = hbox {
+        label(title) {
+            addClass(Styles.heading)
+        }
+    }
+}
