@@ -7,7 +7,7 @@ import tornadofx.*
 import view.willMain;
 import view.chuckMain;
 import view.malikMain;
-import view.lillyMain;
+import view.lilyMain;
 
 
 
@@ -16,7 +16,6 @@ class MainView : View("Hello TornadoFX") {
         setPrefSize(1600.0, 900.0)
         button("William").setOnAction {
             replaceWith(willMain())
-
         }
 
         button("Chuck").setOnAction {
@@ -25,8 +24,8 @@ class MainView : View("Hello TornadoFX") {
         button("Mailik").setOnAction {
             replaceWith(malikMain())
         }
-        button("Lilly").setOnAction {
-            replaceWith(lillyMain())
+        button("Lily").setOnAction {
+            replaceWith(lilyMain())
         }
 
 

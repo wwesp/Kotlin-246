@@ -6,7 +6,7 @@ import app.Styles
 import tornadofx.*
 
 
-class lillyMain : View("lillyMain") {
+class lilyMain : View("lilyMain") {
 
     override val root = hbox {
         label(title) {
