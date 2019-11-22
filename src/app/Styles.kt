@@ -16,6 +16,8 @@ class Styles : Stylesheet() {
             padding = box(400.px)
             fontSize = 20.px
 
+
+
         }
     }
 }

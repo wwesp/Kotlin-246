@@ -2,6 +2,7 @@ package view
 
 import app.MyApp
 import app.Styles
+import javafx.geometry.Pos
 import tornadofx.*
 import view.willMain;
 import view.chuckMain;
@@ -11,10 +12,11 @@ import view.lillyMain;
 
 
 class MainView : View("Hello TornadoFX") {
-    override val root = hbox {
-
+    override val root = vbox {
+        setPrefSize(1600.0, 900.0)
         button("William").setOnAction {
             replaceWith(willMain())
+
         }
 
         button("Chuck").setOnAction {
