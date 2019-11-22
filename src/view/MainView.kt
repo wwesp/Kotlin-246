@@ -14,6 +14,8 @@ import view.lilyMain;
 class MainView : View("Hello TornadoFX") {
     override val root = vbox {
         setPrefSize(1600.0, 900.0)
+        
+
         button("William").setOnAction {
             replaceWith(willMain())
         }
@@ -28,11 +30,14 @@ class MainView : View("Hello TornadoFX") {
             replaceWith(lilyMain())
         }
 
-
-
-
-
     }
+
+
+
+
+
+
+
 }
 
 

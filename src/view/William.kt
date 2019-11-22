@@ -4,10 +4,12 @@ import tornadofx.*
 import app.MyApp
 import app.Styles
 import tornadofx.*
+import javax.xml.soap.Node
 
 
 class willMain : View("willMain") {
-    var textHelper="hello";
+    var textHelper="hello"
+    var hello = Story()
 
     override val root = vbox {
 
@@ -18,32 +20,52 @@ class willMain : View("willMain") {
 
         form {
             textfield {
-                textHelper;
+                textHelper
             }
         }
         button("William").setOnAction {
-            textHelper="yeet";
+
+            var h= hello;
+            replaceWith(hello.storyTime(h))
         }
 
     }
 
-
-
-
-
-
-
     init {
         with (root) {
-            prefWidth = 800.0
-            prefHeight = 600.0
+
             label("My label")
         }
     }
 
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+open class Story() {
+    public open var dead: Int = 1
+
+
+    //returns the page name
+    fun storyTime(obj: Story): View {
+
+        if(dead==1){
+            return deathScreen(obj)
+        }
+
+        return willMain()
+
+    }
+}
+
+
