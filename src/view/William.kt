@@ -8,8 +8,8 @@ import javax.xml.soap.Node
 
 
 class willMain : View("willMain") {
-    var textHelper="hello"
-    var hello = Story()
+    var textHelper="Welcome to find the Pattern!"
+    var hello = Story(100)
 
     override val root = vbox {
 
@@ -18,16 +18,12 @@ class willMain : View("willMain") {
             addClass(Styles.heading)
         }
 
-        form {
-            textfield {
-                textHelper
-            }
-        }
         button("William").setOnAction {
 
             var h= hello;
-            replaceWith(hello.storyTime(h))
+            replaceWith(hello.storyTime(h,"R",willMain()))
         }
+
 
     }
 
@@ -52,20 +48,49 @@ class willMain : View("willMain") {
 
 
 
-open class Story() {
-    public open var dead: Int = 1
+open class Story(h: Int) {
+    private var health: Int = 0
+    var order = listOf("L","R","L","R","U","D","U","D","A","B","A","B")
+    var accList = ArrayList<String>()
+
+    init{
+        health=h
+        accList= ArrayList();
+    }
 
 
     //returns the page name
-    fun storyTime(obj: Story): View {
+    fun storyTime(obj: Story, turn: String, currentView: View): View {
 
-        if(dead==1){
+
+        if(order.get(accList.size).equals(turn)){
+            println("EQUAL")
+            accList.add(turn)
+            println(accList.size)
+        }
+        else{
+            print(health)
+            health=-10
+            return currentView
+        }
+        if(health==0){
             return deathScreen(obj)
         }
+
+
+
+
 
         return willMain()
 
     }
+
+
+
+
+
+
+
 }
 
 
