@@ -143,9 +143,58 @@ class BullsAndCows {// Constructor Declaration of Class
 class chuckMain : View("chuckMain") {
 
 
+    var asciiArt1: String = "\n\nWelcome to Bulls and Cows\n"
+
+
+
     override val root = hbox {
-        label(title) {
-            addClass(Styles.heading)
+
+        gridpane {
+            label(asciiArt1) {
+
+                //constraintsForColumn(1)
+                gridpaneConstraints {
+                    columnRowIndex(1, 1)
+                    marginTop = 110.0
+                    marginLeft = 550.0
+                }
+                style {
+                    fontSize = 40.0.px
+                }
+            }
+
+            button("Back") {
+                useMaxWidth = true
+                gridpaneConstraints {
+                    columnRowIndex(1, 10)
+                    marginTop = 350.0
+                    marginLeft = 400.0
+                    columnSpan = 2
+                    setMaxSize(120.0, 40.0)
+                    setMinSize(120.0, 40.0)
+                    setPrefSize(120.0, 40.0)
+                }
+                style {
+                    fontSize = 15.0.px
+                }
+            }.setOnAction { replaceWith(MainView()) }
+
+            button("Play") {
+                useMaxWidth = true
+                gridpaneConstraints {
+                    columnRowIndex(2, 10)
+                    marginTop = 350.0
+                    marginLeft = 10.0
+                    columnSpan = 2
+                    setMaxSize(120.0, 40.0)
+                    setMinSize(120.0, 40.0)
+                    setPrefSize(120.0, 40.0)
+                }
+                style {
+                    fontSize = 15.0.px
+                }
+            }
         }
     }
 }
+
