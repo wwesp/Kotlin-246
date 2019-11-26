@@ -9,7 +9,7 @@ import javax.xml.soap.Node
 
 class willMain : View("willMain") {
     var textHelper="Welcome to find the Pattern!"
-    var hello = Story(100)
+    var storyObj = Story(10)
 
     override val root = vbox {
 
@@ -18,10 +18,8 @@ class willMain : View("willMain") {
             addClass(Styles.heading)
         }
 
-        button("William").setOnAction {
-
-            var h= hello;
-            replaceWith(hello.storyTime(h,"R",willMain()))
+        button("Press me to start").setOnAction {
+            replaceWith(startScreen(storyObj,""))
         }
 
 
@@ -30,7 +28,7 @@ class willMain : View("willMain") {
     init {
         with (root) {
 
-            label("My label")
+            label(storyObj.getHealth().toString())
         }
     }
 
@@ -49,47 +47,88 @@ class willMain : View("willMain") {
 
 
 open class Story(h: Int) {
-    private var health: Int = 0
-    var order = listOf("L","R","L","R","U","D","U","D","A","B","A","B")
+    private var health: Int
+    private var pageImOn: Int
+
+    //the hash maps match each other. these are what the buttons will display
+
+    //its a gaming code converted to hex
+    var pagePaths = mapOf(
+            1 to listOf("52","55","42","4C"),
+            2 to listOf("41","42","52","44"),
+            3 to listOf("4C","41","55","42"),
+            4 to listOf("55","52","4C","42"),
+            5 to listOf("44","41","42","55"),
+            6 to listOf("44","55","52","42"),
+            7 to listOf("52","55","4C","42"),
+            8 to listOf("41","52","44","42"),
+            9 to listOf("44","4C","41","55"),
+            10 to listOf("52","55","4C","42"),
+            11 to listOf("42","4C","41","52"),
+            12 to listOf("42","55","52","44")
+    )
+    //maps the winning choice for pagepaths
+    var winningPath = mapOf(
+            1 to 3,
+            2 to 2,
+            3 to 0,
+            4 to 1,
+            5 to 3,
+            6 to 0,
+            7 to 1,
+            8 to 2,
+            9 to 2,
+            10 to 3,
+            11 to 2,
+            12 to 0
+    )
+
+
+
+
     var accList = ArrayList<String>()
 
     init{
         health=h
+        pageImOn=1;
         accList= ArrayList();
     }
 
 
-    //returns the page name
-    fun storyTime(obj: Story, turn: String, currentView: View): View {
 
+    //fist to call
+    fun pathChoice(choice: Int): Boolean {
 
-        if(order.get(accList.size).equals(turn)){
+        if(winningPath.get(pageImOn)==choice){
             println("EQUAL")
-            accList.add(turn)
             println(accList.size)
+            pageImOn++
+            return true
         }
         else{
+            health= health-1
             print(health)
-            health=-10
-            return currentView
-        }
-        if(health==0){
-            return deathScreen(obj)
+            return false
         }
 
 
-
-
-
-        return willMain()
 
     }
+    //second to call
+    fun didIDie() : Boolean{
+        if(health<=0){
+            return true
+        }
+        else{
+            return false
+        }
 
+    }
+    // if you take : out of the thing, it removes explicit type inference
+    fun returnOptions() = pagePaths.get(pageImOn)
 
-
-
-
-
+    fun getPageImOn()= pageImOn
+    fun getHealth()= health
 
 }
 
