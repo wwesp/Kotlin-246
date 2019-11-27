@@ -12,7 +12,8 @@ class willMain : View("willMain") {
     var storyObj = Story(10)
 
     override val root = vbox {
-
+        prefWidth = 800.0
+        prefHeight = 600.0
 
         label(textHelper) {
             addClass(Styles.heading)
@@ -49,11 +50,10 @@ class willMain : View("willMain") {
 open class Story(h: Int) {
     private var health: Int
     private var pageImOn: Int
-
     //the hash maps match each other. these are what the buttons will display
 
     //its a gaming code converted to hex
-    var pagePaths = mapOf(
+    val pagePaths = mapOf(
             1 to listOf("52","55","42","4C"),
             2 to listOf("41","42","52","44"),
             3 to listOf("4C","41","55","42"),
@@ -68,7 +68,7 @@ open class Story(h: Int) {
             12 to listOf("42","55","52","44")
     )
     //maps the winning choice for pagepaths
-    var winningPath = mapOf(
+    val winningPath = mapOf(
             1 to 3,
             2 to 2,
             3 to 0,
@@ -83,7 +83,8 @@ open class Story(h: Int) {
             12 to 0
     )
 
-    val lambdaEx: Map<Int,List<String>>.(Map<Int,Int>, Int) -> Pair<Int,List<String>> = { second,third -> Pair(second[third], this[third]) as Pair<Int, List<String>> }
+    val lambdaEx: Map<Int,List<String>>.(Map<Int,Int>, Int) -> Pair<Int,List<String>> =
+            { second,third -> Pair(second[third], this[third]) as Pair<Int, List<String>> }
 
     var accList = ArrayList<String>()
 
@@ -143,5 +144,14 @@ open class Story(h: Int) {
 
 
 }
+
+
+
+
+
+
+
+
+
 
 
