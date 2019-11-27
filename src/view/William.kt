@@ -83,8 +83,7 @@ open class Story(h: Int) {
             12 to 0
     )
 
-
-
+    val lambdaEx: Map<Int,List<String>>.(Map<Int,Int>, Int) -> Pair<Int,List<String>> = { second,third -> Pair(second[third], this[third]) as Pair<Int, List<String>> }
 
     var accList = ArrayList<String>()
 
@@ -99,36 +98,49 @@ open class Story(h: Int) {
     //fist to call
     fun pathChoice(choice: Int): Boolean {
 
-        if(winningPath.get(pageImOn)==choice){
-            println("EQUAL")
-            println(accList.size)
+        return if(winningPath.get(pageImOn)==choice){
             pageImOn++
-            return true
+            true
         }
         else{
             health= health-1
-            print(health)
-            return false
+            false
         }
 
 
 
     }
-    //second to call
-    fun didIDie() : Boolean{
-        if(health<=0){
-            return true
+    //a lambda version of the funciton above
+    var pathChoice2 = { x:Int ->
+        if(winningPath.get(pageImOn)==x){
+            pageImOn++
+            true
         }
         else{
-            return false
+            health= health-1
+            false
         }
-
     }
+
+
+
+
+
+
+
+    //second to call
+    fun didIDie() = health<=0
+
+
+
     // if you take : out of the thing, it removes explicit type inference
     fun returnOptions() = pagePaths.get(pageImOn)
 
     fun getPageImOn()= pageImOn
     fun getHealth()= health
+    fun getpagePaths()= pagePaths;
+    fun getwinningPath()= winningPath;
+
 
 }
 

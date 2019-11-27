@@ -6,14 +6,16 @@ import view.willMain
 import view.Story
 
 
+
+
 class startScreen (obj: Story, message: String): View("you're on path :"+ obj.getPageImOn()+ " of 12 ") {
     var textHelper=message
 
 
     override val root = vbox {
+
         label(textHelper)
         var options =  obj.returnOptions()
-
 
 
                 //Considered choice 0
@@ -37,6 +39,18 @@ class startScreen (obj: Story, message: String): View("you're on path :"+ obj.ge
         button(options.get(3)).setOnAction {
             replaceWith(ButtonsInOne(3,obj))
         }
+        //Considered choice 3
+        button("I give up, and I want to see the cool lambda thing").setOnAction {
+
+
+            var lambdaEx = obj.lambdaEx
+            var ret = obj.getpagePaths().lambdaEx(obj.getwinningPath(),obj.getPageImOn())
+
+
+            replaceWith(startScreen(obj,ret.toString()))
+        }
+
+
 
     }
 
