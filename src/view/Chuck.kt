@@ -5,33 +5,14 @@ import tornadofx.*
 import app.MyApp
 import app.Styles
 import tornadofx.*
+import java.awt.TextField
 import java.util.*
 import java.util.Scanner.*
 import java.util.Arrays
 import java.util.Random.*
 
+
 var repeat_check = false
-
-
-fun main(args: Array<String>){
-
-    //val read = Scanner(System.`in`)
-    println("Welcome to Bulls and Cows!")
-    println("Please Enter a 5 Letter Word")
-
-    var game = BullsAndCows();
-
-    var word_to_guess = game.get_word_to_guess()
-
-    while (game.guess_value != 5 && game.end_game == 0) {
-        var guess = game.getGuess()
-        if (guess.length == 5){
-            game.checkAnswer(guess, word_to_guess)
-        }
-    }
-
-}
-
 
 class BullsAndCows {// Constructor Declaration of Class
 
@@ -80,32 +61,26 @@ class BullsAndCows {// Constructor Declaration of Class
     }
 
 
-    fun getGuess(): String {
-        val guess = readLine()
+    fun getGuess(guess: String): String {
 
-        if (guess != null) {
-            repeat_check =  check_for_repeat(guess)
-        }
+        repeat_check =  check_for_repeat(guess)
 
         if (repeat_check != false) {
-            if (guess != null) {
-                if (guess.length == 5 ) {
-                }
-                else {
-                    println("Please Enter a 5 Letter Word")
-                    //getGuess()
-                    return null.toString()
-                }
+            if (guess.length == 5 ) {
+            }
+            else {
+                return "Please Enter a 5 Letter Word"
             }
 
         }
         else{
-            println("Please Enter a Word Without Repeating Letters")
-            //getGuess()
-            return null.toString()
+            if (guess.equals("")){
+                return "Please Enter a Word"
+            }
+            return "Please Enter a Word Without Repeating Letters"
         }
 
-        return guess.toString()
+        return guess
     }
 
     fun checkAnswer(guess: String, correctWord: String) {
@@ -123,15 +98,10 @@ class BullsAndCows {// Constructor Declaration of Class
             }
         }
         if (bulls != 5) {
-            println("You have guessed the word " + guess)
-            println("Bulls: " + bulls)
-            println("Cows: " + cows)
             guess_value++
-            println("Guess " + guess_value + "/5")
         }
         else{
             end_game++
-            println("You Win!")
         }
     }
 
@@ -149,8 +119,6 @@ class chuckMain : View("chuckMain") {
 
         gridpane {
             label(asciiArt1) {
-
-                //constraintsForColumn(1)
                 gridpaneConstraints {
                     columnRowIndex(1, 1)
                     marginTop = 110.0
@@ -160,7 +128,6 @@ class chuckMain : View("chuckMain") {
                     fontSize = 40.0.px
                 }
             }
-
             button("Back") {
                 useMaxWidth = true
                 gridpaneConstraints {
@@ -191,19 +158,185 @@ class chuckMain : View("chuckMain") {
                 style {
                     fontSize = 15.0.px
                 }
-            }.setOnAction { replaceWith(launchGame()) }
+            }.setOnAction {
+                val game = BullsAndCows()
+                var cows = game.cows.toString()
+                var bulls = game.bulls.toString()
+                var word_to_guess = game.get_word_to_guess()
+                replaceWith(launchGame(game, cows, bulls, word_to_guess, ""))
+            }
         }
     }
 }
 
-class launchGame : View("Bulls And Cows") {
+class launchGame(game: BullsAndCows, var bulls: String, var cows: String,
+                 word_to_guess: String, var error_message: String) : View("Bulls And Cows") {
 
 
     var asciiArt1: String = "\n\nPlease Enter a 5 Letter Word\n"
 
+    var guess: String = ""
 
 
     override val root = hbox {
+
+        gridpane {
+            label(asciiArt1) {
+                gridpaneConstraints {
+                    columnRowIndex(3, 1)
+                    //marginTop = 110.0
+                    marginLeft = 550.0
+                }
+                style {
+                    fontSize = 40.0.px
+                }
+            }
+            label("Bulls: $bulls") {
+                gridpaneConstraints {
+                    columnRowIndex(3, 2)
+                    marginTop = 100.0
+                    marginLeft = 550.0
+                }
+                style {
+                    fontSize = 20.0.px
+                }
+            }
+            label("Cows: $cows") {
+                gridpaneConstraints {
+                    columnRowIndex(3, 3)
+                    marginTop = 100.0
+                    marginLeft = 550.0
+                }
+                style {
+                    fontSize = 20.0.px
+                }
+            }
+            label(error_message) {
+                gridpaneConstraints {
+                    columnRowIndex(3, 4)
+                    marginTop = 140.0
+                    marginLeft = 550.0
+                }
+                style {
+                    fontSize = 20.0.px
+                }
+            }
+            label("${game.guess_value} / 5") {
+                gridpaneConstraints {
+                    columnRowIndex(3, 4)
+                    marginTop = 100.0
+                    marginLeft = 550.0
+                }
+                style {
+                    fontSize = 20.0.px
+                }
+            }
+
+            textfield {
+                gridpaneConstraints {
+                    columnRowIndex(3,5)
+                    marginTop = 50.0
+                    marginLeft = 550.0
+                }
+                style {
+                    fontSize = 20.0.px
+                }
+                textProperty().addListener{ obs, old, new ->
+                    guess = new
+                }
+            }.setOnAction {
+                if (game.guess_value <= 3 ) {
+                    error_message = game.getGuess(guess)
+                    if (error_message.length != 5){
+                        replaceWith(launchGame(game, bulls, cows, word_to_guess, error_message))
+                    }
+                    else {
+                        game.checkAnswer(guess, word_to_guess)
+                        cows = game.cows.toString()
+                        bulls = game.bulls.toString()
+                        if (bulls == "5") {
+                            replaceWith(GameOver(1))
+                        }
+                    }
+                    error_message = ""
+                    replaceWith(launchGame(game, bulls, cows, word_to_guess, error_message))
+                }
+                else{
+                    replaceWith(GameOver(0))
+                }
+            }
+
+            button("Back") {
+                useMaxWidth = true
+                gridpaneConstraints {
+                    columnRowIndex(3, 6)
+                    marginTop = 100.0
+                    marginLeft = 400.0
+                    //columnSpan = 2
+                    setMaxSize(120.0, 40.0)
+                    setMinSize(120.0, 40.0)
+                    setPrefSize(120.0, 40.0)
+                }
+                style {
+                    fontSize = 15.0.px
+                }
+            }.setOnAction { replaceWith(chuckMain()) }
+
+            button("Play") {
+                useMaxWidth = true
+                gridpaneConstraints {
+                    columnRowIndex(4, 6)
+                    marginTop = 100.0
+                    marginLeft = 10.0
+                    //columnSpan = 2
+                    setMaxSize(120.0, 40.0)
+                    setMinSize(120.0, 40.0)
+                    setPrefSize(120.0, 40.0)
+                }
+                style {
+                    fontSize = 15.0.px
+                }
+            }.setOnAction {
+                if (game.guess_value <= 3 ) {
+                    error_message = game.getGuess(guess)
+                    if (error_message.length != 5){
+                        replaceWith(launchGame(game, bulls, cows, word_to_guess, error_message))
+                    }
+                    else {
+                        game.checkAnswer(guess, word_to_guess)
+                        cows = game.cows.toString()
+                        bulls = game.bulls.toString()
+                        if (bulls == "5") {
+                            replaceWith(GameOver(1))
+                        }
+                    }
+                    error_message = ""
+                    replaceWith(launchGame(game, bulls, cows, word_to_guess, error_message))
+                }
+                else{
+                    replaceWith(GameOver(0))
+                }
+            }
+        }
+    }
+}
+
+class GameOver(gameover: Int) : View("Game Over") {
+
+
+    var asciiArt1: String = "\n\nGame Over\n"
+
+    var gameover_text: String = ""
+
+
+    override val root = hbox {
+
+        if (gameover == 0){
+            gameover_text = "You Lose"
+        }
+        else{
+            gameover_text = "You Win"
+        }
 
         gridpane {
             label(asciiArt1) {
@@ -218,8 +351,17 @@ class launchGame : View("Bulls And Cows") {
                     fontSize = 40.0.px
                 }
             }
-
-            button("Back") {
+            label(gameover_text) {
+                gridpaneConstraints {
+                    columnRowIndex(1, 2)
+                    marginTop = 100.0
+                    marginLeft = 550.0
+                }
+                style {
+                    fontSize = 20.0.px
+                }
+            }
+            button("Quit") {
                 useMaxWidth = true
                 gridpaneConstraints {
                     columnRowIndex(1, 10)
@@ -235,7 +377,7 @@ class launchGame : View("Bulls And Cows") {
                 }
             }.setOnAction { replaceWith(MainView()) }
 
-            button("Play") {
+            button("Play Again ") {
                 useMaxWidth = true
                 gridpaneConstraints {
                     columnRowIndex(2, 10)
@@ -249,7 +391,14 @@ class launchGame : View("Bulls And Cows") {
                 style {
                     fontSize = 15.0.px
                 }
+            }.setOnAction {
+                val game = BullsAndCows()
+                var cows = game.cows.toString()
+                var bulls = game.bulls.toString()
+                var word_to_guess = game.get_word_to_guess()
+                replaceWith(launchGame(game, cows, bulls, word_to_guess, ""))
             }
+
         }
     }
 }
