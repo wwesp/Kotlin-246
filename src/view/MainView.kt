@@ -4,6 +4,7 @@ import app.MyApp
 import app.Styles
 import javafx.geometry.Pos
 import tornadofx.*
+import tornadofx.Stylesheet.Companion.button
 import view.willMain;
 import view.chuckMain;
 import view.malikMain;
