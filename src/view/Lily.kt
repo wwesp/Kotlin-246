@@ -1,30 +1,21 @@
 package view
 
 import tornadofx.*
-import app.MyApp
-import app.Styles
-import com.sun.org.apache.bcel.internal.Repository.addClass
 import javafx.scene.control.TextField
-import javafx.scene.layout.Priority
-import tornadofx.*
-import tornadofx.Stylesheet.Companion.button
-import tornadofx.Stylesheet.Companion.label
-import view.MainView;
+import java.io.File
 
 
 class lilyMain : View("lilyMain") {
 
-//    var inpa: Double = 0.0
-//    var inpb: Double = 0.0
-//    var inpc: Double = 0.0
-//    var inpd: Double = 0.0
+    val readA = reading(0,0,0.0)
+    val readB = reading(1,0,0.0)
+    val readC = reading(0,1,0.0)
+    val readD = reading(1,1,0.0)
 
-    val defaultRead = reading(0,0,0.0)
-
-    fun read(){
-
-
-    }
+    var laserA: Double = 0.0
+    var laserB: Double = 0.0
+    var laserC: Double = 0.0
+    var laserD: Double = 0.0
 
     var inpa: TextField by singleAssign()
     var inpb: TextField by singleAssign()
@@ -34,26 +25,42 @@ class lilyMain : View("lilyMain") {
 
     override val root = vbox {
         hbox {
-            label("Base Input (A)")
-            inpa = textfield{
+            label("Base mm Input (A)")
+            inpa = textfield {
+                textProperty().addListener { obs, old, newA ->
+                    println("You typed: " + newA)
+                    laserA= newA.toDouble()
+                }
                 filterInput { it.controlNewText.isDouble() }
             }
         }
         hbox {
-            label("Second Input (B)")
-            inpb = textfield{
+            label("Second mm Input (B)")
+            inpb = textfield {
+                textProperty().addListener { obs, old, newB ->
+                    println("You typed: " + newB)
+                    laserB = newB.toDouble()
+                }
                 filterInput { it.controlNewText.isDouble() }
             }
         }
         hbox {
-            label("Third Input (C)")
-            inpc = textfield{
+            label("Third mm Input (C)")
+            inpc = textfield {
+                textProperty().addListener { obs, old, newC ->
+                    println("You typed: " + newC)
+                    laserC = newC.toDouble()
+                }
                 filterInput { it.controlNewText.isDouble() }
             }
         }
         hbox {
-            label("Fourth Input (D)")
-            inpd = textfield{
+            label("Fourth mm Input (D)")
+            inpd = textfield {
+                textProperty().addListener { obs, old, newD ->
+                    println("You typed: " + newD)
+                    laserD = newD.toDouble()
+                }
                 filterInput { it.controlNewText.isDouble() }
             }
         }
@@ -65,36 +72,24 @@ class lilyMain : View("lilyMain") {
             val myNumber: Int = yo.toInt()
             val test2 = inpb.text
             action {
-                println("Input A set to ${inpa.text}, input B set to ${inpb.text}, input C set to ${inpc.text}, input D set to ${inpd.text}")
-                println(test1)
+                println("Input A set to ${inpa.text}, input B set to ${inpb.text}, input C set to ${inpc.text}, input D set to ${inpd.text} \n")
+                println(laserA)
+                readA.dist = laserA
+                readB.dist = laserB
+                readC.dist = laserC
+                readD.dist = laserD
+                File("data.txt").writeText("${readA.toString()}, ${readB.toString()}, ${readC.toString()}, ${readD.toString()}")
+                replaceWith(lilyMain2(readA, readB, readC, readD))
+
             }
+        }
+        button("Home").setOnAction {
+            replaceWith(MainView())
         }
     }
 
-
-
-    fun meme() {
-
-    }
-
-  //  mine
-//    override val root = vbox {
-//        label(title) {
-//            addClass(Styles.heading)
-//        }
-//        button("Main").setOnAction {
-//            replaceWith(MainView())
-//        }
-//        textfield {
-//            gridpaneConstraints {
-//                columnRowIndex(3,5)
-//                marginTop = 50.0
-//                marginLeft = 550.0
-//            }
-//            style {
-//                fontSize = 20.0.px
-//            }
-    data class reading(val x: Int, val y: Int, val dist: Double){
+    data class reading(val x: Int, val y: Int, var dist: Double){
 
     }
 }
+

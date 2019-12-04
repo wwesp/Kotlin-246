@@ -27,7 +27,7 @@ class MainView : View("Hello TornadoFX") {
         button("Mailik").setOnAction {
             replaceWith(malikMain())
         }
-        button("Lily").setOnAction {
+        button("Sam").setOnAction {
             replaceWith(lilyMain())
         }
 
