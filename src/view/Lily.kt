@@ -66,11 +66,6 @@ class lilyMain : View("lilyMain") {
         }
         button("Set inputs") {
             useMaxWidth = true
-            val test1 = inpa.text
-            val ye = test1.toString()
-            val yo: String = "23"
-            val myNumber: Int = yo.toInt()
-            val test2 = inpb.text
             action {
                 println("Input A set to ${inpa.text}, input B set to ${inpb.text}, input C set to ${inpc.text}, input D set to ${inpd.text} \n")
                 println(laserA)
@@ -88,8 +83,6 @@ class lilyMain : View("lilyMain") {
         }
     }
 
-    data class reading(val x: Int, val y: Int, var dist: Double){
-
-    }
+    data class reading(val x: Int, val y: Int, var dist: Double){}
 }
 
