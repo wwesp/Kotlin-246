@@ -5,7 +5,7 @@ import tornadofx.*
 import java.math.RoundingMode
 import java.math.BigDecimal
 
-class lilyMain2(readingA: lilyMain.reading, readingB: lilyMain.reading, readingC: lilyMain.reading, readingD: lilyMain.reading) : View("lilyMain2") {
+class samMain2(readingA: samMain.reading, readingB: samMain.reading, readingC: samMain.reading, readingD: samMain.reading) : View("samMain2") {
     override val root = vbox {
         setPrefSize(1600.0, 900.0)
 
@@ -19,7 +19,7 @@ class lilyMain2(readingA: lilyMain.reading, readingB: lilyMain.reading, readingC
 
 
         button("Back").setOnAction {
-            replaceWith(lilyMain())
+            replaceWith(samMain())
         }
         button("Home").setOnAction {
             replaceWith(MainView())

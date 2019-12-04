@@ -5,7 +5,7 @@ import javafx.scene.control.TextField
 import java.io.File
 
 
-class lilyMain : View("lilyMain") {
+class samMain : View("samMain") {
 
     val readA = reading(0,0,0.0)
     val readB = reading(1,0,0.0)
@@ -24,6 +24,9 @@ class lilyMain : View("lilyMain") {
 
 
     override val root = vbox {
+        hbox{
+            label("Please enter the distance values with base input at correct extruder height in millimeters")
+        }
         hbox {
             label("Base mm Input (A)")
             inpa = textfield {
@@ -74,7 +77,7 @@ class lilyMain : View("lilyMain") {
                 readC.dist = laserC
                 readD.dist = laserD
                 File("data.txt").writeText("${readA.toString()}, ${readB.toString()}, ${readC.toString()}, ${readD.toString()}")
-                replaceWith(lilyMain2(readA, readB, readC, readD))
+                replaceWith(samMain2(readA, readB, readC, readD))
 
             }
         }

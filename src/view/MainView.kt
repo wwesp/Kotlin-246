@@ -8,7 +8,7 @@ import tornadofx.Stylesheet.Companion.button
 import view.willMain;
 import view.chuckMain;
 import view.malikMain;
-import view.lilyMain;
+import view.samMain;
 
 
 
@@ -28,7 +28,7 @@ class MainView : View("Hello TornadoFX") {
             replaceWith(malikMain())
         }
         button("Sam").setOnAction {
-            replaceWith(lilyMain())
+            replaceWith(samMain())
         }
 
     }
